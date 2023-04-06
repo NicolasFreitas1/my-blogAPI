@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'bcrypt';
@@ -23,11 +22,25 @@ export class UserService {
     return hash(password, PASSWORD_ROUNDS);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findAllUsers() {
+    return this.prisma.user.findMany();
+  }
+  findUserById(id: number) {
+    return this.prisma.user.findUniqueOrThrow({ where: { id } });
   }
 
   findByLogin(login: string) {
     return this.prisma.user.findUniqueOrThrow({ where: { login } });
+  }
+
+  deleteUser(id: number): Promise<User> {
+    return this.prisma.user.delete({ where: { id } });
+  }
+
+  updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
 }
