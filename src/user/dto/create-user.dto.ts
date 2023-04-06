@@ -2,7 +2,7 @@ import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   /**
-   * Nome do usuário
+   * Nome do usuário.
    * @example admin
    */
   @IsString()
@@ -11,7 +11,7 @@ export class CreateUserDto {
   name: string;
 
   /**
-   * Login do usuário
+   * Login do usuário.
    * @example admin
    */
   @IsString()

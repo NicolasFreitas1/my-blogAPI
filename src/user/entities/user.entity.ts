@@ -25,4 +25,7 @@ export class UserEntity implements User {
    * Data de atualização do usuário
    */
   updatedAt: Date;
+  constructor(partial: Partial<UserEntity>) {
+    Object.assign(this, partial);
+  }
 }
