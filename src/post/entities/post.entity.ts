@@ -23,7 +23,7 @@ export class PostEntity implements Post {
    */
   createdAt: Date;
   /**
-   * Data de atualização da
+   * Data de atualização da postagem
    */
   updatedAt: Date;
 

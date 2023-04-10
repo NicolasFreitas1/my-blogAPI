@@ -20,7 +20,7 @@ export class CreateUserDto {
   login: string;
 
   /**
-   * Senha fornecida pelo usuário.Deve conter: de 8 à 30 caracteres, letra maiúsculas e minusculas.
+   * Senha fornecida pelo usuário. Deve conter: de 8 à 30 caracteres, letra maiúsculas e minusculas.
    * @example Admin12345
    */
   @IsString()

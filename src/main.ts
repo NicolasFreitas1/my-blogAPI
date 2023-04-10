@@ -5,9 +5,9 @@ import { AppModule } from './app.module';
 
 function configSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('Thermometry API')
-    .setDescription('API do Termometria')
-    .setVersion('1.8')
+    .setTitle('Blog API')
+    .setDescription('API')
+    .setVersion('1.0')
     .addBearerAuth()
     .build();
 
@@ -19,7 +19,7 @@ function configSwagger(app: INestApplication): void {
   });
 }
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   // Pipes
   app.useGlobalPipes(

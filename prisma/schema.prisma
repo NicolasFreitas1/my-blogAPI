@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement()) @map("id_user") /// Id da tabela  
-  name      String    @map("nm_user") @db.VarChar(50) /// Nome do usuário
-  login     String    @unique @map("nm_login") @db.VarChar(30) /// Login do usuário
-  password  String    @map("vl_password") /// Senha do usuário
-  createdAt DateTime  @default(now()) @map("dt_created") /// Data de criação do usuário 
-  updatedAt DateTime? @default(now()) @updatedAt @map("dt_updated") /// Data de atualização do usuário 
+  id        Int      @id @default(autoincrement()) @map("id_user") /// Id da tabela  
+  name      String   @map("nm_user") @db.VarChar(50) /// Nome do usuário
+  login     String   @unique @map("nm_login") @db.VarChar(30) /// Login do usuário
+  password  String   @map("vl_password") /// Senha do usuário
+  createdAt DateTime @default(now()) @map("dt_created") /// Data de criação do usuário 
+  updatedAt DateTime @updatedAt @map("dt_updated") /// Data de atualização do usuário 
 
   posts Post[]
 
@@ -26,7 +26,7 @@ model Post {
   title     String   @unique /// Titulo de cada postagem
   content   String /// Conteudo de cada postagem  
   createdAt DateTime @default(now()) @map("dt_created")
-  updatedAt DateTime @default(now()) @map("dt_updated")
+  updatedAt DateTime @updatedAt @map("dt_updated")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

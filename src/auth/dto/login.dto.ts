@@ -1,6 +1,8 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, MinLength } from 'class-validator';
+import { CreateUserDto } from 'src/user/dto';
 
-export class LoginDto {
+export class LoginDto extends PartialType(CreateUserDto) {
   /**
    * Id do usuário
    * @example 1

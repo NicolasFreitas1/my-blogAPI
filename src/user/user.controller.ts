@@ -34,16 +34,15 @@ export class UserController {
     return this.userService.findUserById(id);
   }
 
-  @Delete(':id')
-  deleteUser(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.deleteUser(id);
-  }
-
   @Patch(':id')
   updateUser(
     @Body() updateUserDto: UpdateUserDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
     return this.userService.updateUser(id, updateUserDto);
+  }
+  @Delete(':id')
+  deleteUser(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.deleteUser(id);
   }
 }

@@ -1,14 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { CreatePostDto } from './create-post.dto';
-import {
-  IsDate,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
-import { DateTime } from 'luxon';
-import { Transform } from 'class-transformer';
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {
   /**
@@ -29,12 +21,4 @@ export class UpdatePostDto extends PartialType(CreatePostDto) {
   @IsString()
   @MaxLength(200)
   content: string;
-
-  /**
-   * Data de modificação da postagem
-   * @example 10-04-2023
-   */
-  @IsDate()
-  @Transform(({ value }) => DateTime.fromFormat(value, 'dd-MM-yyyy').toJSDate())
-  updatedAt: Date;
 }
