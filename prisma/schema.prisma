@@ -15,7 +15,8 @@ model User {
   createdAt DateTime @default(now()) @map("dt_created") /// Data de criação do usuário 
   updatedAt DateTime @updatedAt @map("dt_updated") /// Data de atualização do usuário 
 
-  posts Post[]
+  posts    Post[]
+  Comments Comments[]
 
   @@map("user")
 }
@@ -23,12 +24,25 @@ model User {
 model Post {
   id        Int      @id @default(autoincrement()) @map("id_post") /// Id da Tabela
   userId    Int      @map("id_user") /// Foreign key Id do usuario
-  title     String   @unique /// Titulo de cada postagem
-  content   String /// Conteudo de cada postagem  
-  createdAt DateTime @default(now()) @map("dt_created")
-  updatedAt DateTime @updatedAt @map("dt_updated")
+  title     String   @unique @db.VarChar(50) /// Titulo de cada postagem
+  content   String   @db.VarChar(200) /// Conteudo de cada postagem  
+  createdAt DateTime @default(now()) @map("dt_created") /// Data de criação da postagem
+  updatedAt DateTime @updatedAt @map("dt_updated") /// Data de edição da postagem 
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comments Comments[]
 
   @@map("post")
+}
+
+model Comments {
+  id        Int      @id @default(autoincrement()) @map("id_comment") /// Id do comentario
+  userId    Int      @map("id_user") /// Foreign key Id do usuario 
+  postId    Int      @map("id_post") /// Foreign key Id da postagem 
+  content   String   @map("content_comment") @db.VarChar(100) /// Conteudo de cada postagem  
+  createdAt DateTime @default(now()) @map("dt_created") /// Data de criação da postagem
+  updatedAt DateTime @updatedAt @map("dt_updated") /// Data de edição da postagem 
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
