@@ -22,7 +22,7 @@ model User {
 
 model Post {
   id        Int      @id @default(autoincrement()) @map("id_post") /// Id da Tabela
-  userId    Int      @map("id_user") /// Foreign key Id do usuario 
+  userId    Int      @map("id_user") /// Foreign key Id do usuario
   title     String   @unique /// Titulo de cada postagem
   content   String /// Conteudo de cada postagem  
   createdAt DateTime @default(now()) @map("dt_created")

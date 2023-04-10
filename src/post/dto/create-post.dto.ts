@@ -1,5 +1,6 @@
 import { IsString, MaxLength } from 'class-validator';
 
+
 export class CreatePostDto {
   /**
    * Titulo da postagem

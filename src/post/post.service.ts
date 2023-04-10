@@ -47,9 +47,7 @@ export class PostService {
 
   async getUserId(id: number, currentUser: UserEntity) {
     const post = await this.prisma.post.findUniqueOrThrow({ where: { id } });
-    const userId = post.userId;
-
-    if (userId != currentUser.id) {
+    if (post.userId != currentUser.id) {
       throw new Error('You cannot delete/edit post of another user');
     }
   }

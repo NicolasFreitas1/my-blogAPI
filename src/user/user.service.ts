@@ -3,6 +3,7 @@ import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'bcrypt';
+import { UserEntity } from './entities/user.entity';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
@@ -33,14 +34,26 @@ export class UserService {
     return this.prisma.user.findUniqueOrThrow({ where: { login } });
   }
 
-  deleteUser(id: number): Promise<User> {
+  async deleteUser(id: number, currentUser): Promise<User> {
+    await this.getUserId(id, currentUser);
     return this.prisma.user.delete({ where: { id } });
   }
 
-  updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateUser(
+    id: number,
+    updateUserDto: UpdateUserDto,
+    currentUser,
+  ): Promise<User> {
+    await this.getUserId(id, currentUser);
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
+  }
+  async getUserId(id: number, currentUser: UserEntity) {
+    const user = await this.prisma.user.findUniqueOrThrow({ where: { id } });
+    if (user.id != currentUser.id) {
+      throw new Error('You cannot delete/edit post of another user');
+    }
   }
 }

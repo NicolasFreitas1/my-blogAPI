@@ -12,6 +12,8 @@ import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('user')
 @ApiTags('User')
@@ -38,11 +40,15 @@ export class UserController {
   updateUser(
     @Body() updateUserDto: UpdateUserDto,
     @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: UserEntity,
   ) {
-    return this.userService.updateUser(id, updateUserDto);
+    return this.userService.updateUser(id, updateUserDto, currentUser);
   }
   @Delete(':id')
-  deleteUser(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.deleteUser(id);
+  deleteUser(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: UserEntity,
+  ) {
+    return this.userService.deleteUser(id, currentUser);
   }
 }
