@@ -15,5 +15,20 @@ model User {
   createdAt DateTime  @default(now()) @map("dt_created") /// Data de criação do usuário 
   updatedAt DateTime? @default(now()) @updatedAt @map("dt_updated") /// Data de atualização do usuário 
 
+  posts Post[]
+
   @@map("user")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement()) @map("id_post") /// Id da Tabela
+  userId    Int      @map("id_user") /// Foreign key Id do usuario 
+  title     String   @unique /// Titulo de cada postagem
+  content   String /// Conteudo de cada postagem  
+  createdAt DateTime @default(now()) @map("dt_created")
+  updatedAt DateTime @default(now()) @map("dt_updated")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("post")
 }
