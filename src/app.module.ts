@@ -5,9 +5,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { Module } from '@nestjs/common';
 import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, AuthModule, PostModule],
+  imports: [PrismaModule, UserModule, AuthModule, PostModule, CommentModule],
   providers: [
     {
       provide: APP_GUARD,

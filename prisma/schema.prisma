@@ -16,7 +16,7 @@ model User {
   updatedAt DateTime @updatedAt @map("dt_updated") /// Data de atualização do usuário 
 
   posts    Post[]
-  Comments Comments[]
+  comments Comment[]
 
   @@map("user")
 }
@@ -29,13 +29,13 @@ model Post {
   createdAt DateTime @default(now()) @map("dt_created") /// Data de criação da postagem
   updatedAt DateTime @updatedAt @map("dt_updated") /// Data de edição da postagem 
 
-  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Comments Comments[]
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments Comment[]
 
   @@map("post")
 }
 
-model Comments {
+model Comment {
   id        Int      @id @default(autoincrement()) @map("id_comment") /// Id do comentario
   userId    Int      @map("id_user") /// Foreign key Id do usuario 
   postId    Int      @map("id_post") /// Foreign key Id da postagem 
@@ -45,4 +45,6 @@ model Comments {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comment")
 }
