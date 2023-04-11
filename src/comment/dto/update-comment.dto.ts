@@ -5,7 +5,7 @@ import { IsOptional, IsString, MaxLength } from 'class-validator';
 export class UpdateCommentDto extends PartialType(CreateCommentDto) {
   /**
    * Conteúdo do comentário
-   * @exemple Ótimas palavras!!! 👏👏👏
+   * @example Ótimas palavras!!! 👏👏👏
    */
   @IsOptional()
   @IsString()

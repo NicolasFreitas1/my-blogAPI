@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Comment } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserEntity } from 'src/user/entities/user.entity';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Injectable()
 export class CommentService {
@@ -24,18 +24,36 @@ export class CommentService {
   }
 
   findAll() {
-    return `This action returns all comment`;
+    return this.prisma.comment.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} comment`;
+    return this.prisma.post.findUniqueOrThrow({ where: { id } });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async update(
+    id: number,
+    updateCommentDto: UpdateCommentDto,
+    currentUser,
+  ): Promise<Comment> {
+    await this.getUserId(id, currentUser);
+    return this.prisma.comment.update({
+      where: { id },
+      data: updateCommentDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async remove(id: number, currentUser) {
+    await this.getUserId(id, currentUser);
+    return this.prisma.comment.delete({ where: { id } });
+  }
+
+  async getUserId(id: number, currentUser: UserEntity) {
+    const comment = await this.prisma.comment.findUniqueOrThrow({
+      where: { id },
+    });
+    if (comment.userId != currentUser.id) {
+      throw new Error('You cannot delete/edit post of another user');
+    }
   }
 }

@@ -36,7 +36,7 @@ export class PostController {
   }
 
   @Get('posts')
-  findOne(@CurrentUser() currentUser: UserEntity) {
+  findAllUserPosts(@CurrentUser() currentUser: UserEntity) {
     return this.postService.findAllUserPosts(currentUser);
   }
   @Get(':id')
